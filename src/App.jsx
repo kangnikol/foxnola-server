@@ -11,7 +11,7 @@ const Ping = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/api/ping")
+      .get("/api/ping")
       .then((response) => setServerData(response.data))
       .catch((err) => setError(err.message))
   }, [])
@@ -63,7 +63,7 @@ const Ping = () => {
                 />
               )) || <div className="w-16 h-16 bg-surface2"></div>}
 
-              <div className="flex flex-col text-xs lg:text-md">
+              <div className="flex flex-col text-xs lg:text-lg">
                 <p>
                   <strong>IP:</strong> FoxNola.aternos.me:64523{" "}
                   <button onClick={cpyTxt} aria-label="Copy server IP">
