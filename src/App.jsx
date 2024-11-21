@@ -9,7 +9,7 @@ const Ping = () => {
 
   useEffect(() => {
     axios
-      .get("/api/ping")
+      .get("https://foxnola-server.vercel.app/api/ping")
       .then((response) => setServerData(response.data))
       .catch((err) => setError(err.message))
   }, [])
