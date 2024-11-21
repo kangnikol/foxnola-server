@@ -1,6 +1,8 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from "react"
 import axios from "axios"
+import Loading from "./Loading"
+import Error from "./Error"
 
 const Ping = () => {
   const [serverData, setServerData] = useState(null)
@@ -14,8 +16,8 @@ const Ping = () => {
       .catch((err) => setError(err.message))
   }, [])
 
-  if (error) return <div>Error: {error}</div>
-  if (!serverData) return <div>Loading...</div>
+  if (error) return Error(error)
+  if (!serverData) return Loading
 
   const cpyTxt = () => {
     const copyText = "FoxNola.aternos.me:64523"
@@ -37,7 +39,7 @@ const Ping = () => {
             editions (including Pocket Edition).
           </p>
         </div>
-        <div className="flex pt-4 justify-between">
+        <div className="flex pt-4 gap-6 justify-between">
           <div className="w-1/2 flex flex-col gap-4">
             <h2 className="text-xl font-semibold text-yellow">Server Status</h2>
             <div className="flex gap-4">
@@ -53,9 +55,9 @@ const Ping = () => {
                   <strong>IP:</strong> FoxNola.aternos.me:64523{" "}
                   <button onClick={cpyTxt}>
                     {copied ? (
-                      <span className="text-yellow animate-fadeInOut">
-                        ✔ Copied
-                      </span>
+                      <h2 className="text-yellow animate-fade text-xs">
+                        ✔ Copied!
+                      </h2>
                     ) : (
                       <ion-icon name="copy-outline"></ion-icon>
                     )}
@@ -69,7 +71,7 @@ const Ping = () => {
                     }
                   >
                     {serverData.version?.name
-                      ? `Now Running on ${serverData.version.name}`
+                      ? `${serverData.version.name}`
                       : "Offline! Contact the server admin."}
                   </strong>
                 </p>
