@@ -63,7 +63,7 @@ const Ping = () => {
                 />
               )) || <div className="w-16 h-16 bg-surface2"></div>}
 
-              <div className="flex flex-col text-xs lg:text-normal">
+              <div className="flex flex-col text-xs lg:text-md">
                 <p>
                   <strong>IP:</strong> FoxNola.aternos.me:64523{" "}
                   <button onClick={cpyTxt} aria-label="Copy server IP">
