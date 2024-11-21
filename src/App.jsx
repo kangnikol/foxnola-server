@@ -11,7 +11,7 @@ const Ping = () => {
 
   useEffect(() => {
     axios
-      .get("https://foxnola-server.vercel.app/api/ping")
+      .get("/api/ping")
       .then((response) => setServerData(response.data))
       .catch((err) => setError(err.message))
   }, [])
@@ -21,10 +21,14 @@ const Ping = () => {
 
   const cpyTxt = () => {
     const copyText = "FoxNola.aternos.me:64523"
-    navigator.clipboard.writeText(copyText).then(() => setCopied(true))
-    setTimeout(() => setCopied(false), 1000).catch((err) =>
-      console.error("Error copying text:", err)
-    )
+
+    navigator.clipboard
+      .writeText(copyText)
+      .then(() => {
+        setCopied(true)
+        setTimeout(() => setCopied(false), 1000)
+      })
+      .catch((err) => console.error("Error copying text:", err))
   }
 
   return (
@@ -53,11 +57,11 @@ const Ping = () => {
               <div className="flex flex-col">
                 <p>
                   <strong>IP:</strong> FoxNola.aternos.me:64523{" "}
-                  <button onClick={cpyTxt}>
+                  <button onClick={cpyTxt} aria-label="Copy server IP">
                     {copied ? (
-                      <h2 className="text-yellow animate-fade text-xs">
+                      <span className="text-yellow animate-fade text-xs">
                         ✔ Copied!
-                      </h2>
+                      </span>
                     ) : (
                       <ion-icon name="copy-outline"></ion-icon>
                     )}
