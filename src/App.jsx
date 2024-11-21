@@ -9,7 +9,7 @@ const Ping = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/api/ping")
+      .get("/api/ping")
       .then((response) => setServerData(response.data))
       .catch((err) => setError(err.message))
   }, [])
