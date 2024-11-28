@@ -87,7 +87,7 @@ const Ping = () => {
                 <p>
                   <strong>Status: </strong>
                   <strong
-                    className={serverData.version ? "text-red" : "text-green"}
+                    className={serverData.version ? "text-green" : "text-red"}
                   >
                     {serverData.version?.name
                       ? serverData.version.name
