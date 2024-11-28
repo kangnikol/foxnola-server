@@ -12,7 +12,7 @@ const Ping = () => {
 
   const [error, setError] = useState(null)
   const [copied, setCopied] = useState(false)
-  const [loading, setLoading] = useState(true) // New loading state
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchServerData = async () => {
@@ -22,14 +22,14 @@ const Ping = () => {
       } catch (err) {
         setError(err.message)
       } finally {
-        setLoading(false) // Set loading to false after fetching
+        setLoading(false)
       }
     }
 
     fetchServerData()
   }, [])
 
-  const cpyTxt = () => {
+  const handleCopyText = () => {
     const copyText = "NgobrolSantai.aternos.me:64523"
     navigator.clipboard
       .writeText(copyText)
@@ -41,7 +41,7 @@ const Ping = () => {
   }
 
   if (error) return <Error message={error} />
-  if (loading) return <Loading /> // Show loading while fetching data
+  if (loading) return <Loading />
 
   return (
     <div className="flex items-center justify-center h-screen bg-base text-text">
@@ -60,18 +60,20 @@ const Ping = () => {
           <div className="w-full md:w-1/2 flex flex-col gap-4">
             <h2 className="text-xl font-semibold text-yellow">Server Status</h2>
             <div className="flex gap-4">
-              {(serverData?.favicon && (
+              {serverData?.favicon ? (
                 <img
                   src={serverData.favicon}
                   alt="Server Favicon"
                   className="w-16 h-16 rounded-lg"
                 />
-              )) || <div className="w-16 h-16 bg-surface2 rounded-full"></div>}
+              ) : (
+                <div className="w-16 h-16 bg-surface2 rounded-full"></div>
+              )}
 
               <div className="flex flex-col text-xs lg:text-lg">
                 <p>
                   <strong>IP:</strong> NgobrolSantai.aternos.me:64523{" "}
-                  <button onClick={cpyTxt} aria-label="Copy server IP">
+                  <button onClick={handleCopyText} aria-label="Copy server IP">
                     {copied ? (
                       <span className="text-yellow animate-fade text-xs">
                         ✔ Copied!
@@ -86,9 +88,9 @@ const Ping = () => {
                   <strong
                     className={serverData.version ? "text-red" : "text-green"}
                   >
-                    {serverData.version
-                      ? "Offline! Contact the server admin."
-                      : serverData.version.name}
+                    {serverData.version?.name
+                      ? serverData.version.name
+                      : "Offline! Contact the server admin."}
                   </strong>
                 </p>
               </div>
