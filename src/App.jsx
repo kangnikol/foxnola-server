@@ -4,7 +4,7 @@ import axios from "axios"
 import Loading from "./Loading"
 import Error from "./Error"
 
-const Ping = () => {
+const App = () => {
   const [serverData, setServerData] = useState({
     version: null,
     players: { online: 0, max: 20, sample: [] },
@@ -45,13 +45,13 @@ const Ping = () => {
   if (loading) return <Loading />
 
   return (
-    <div className="flex items-center justify-center h-screen bg-base text-text">
-      <div className="bg-surface0 p-6 rounded-lg w-3/4 shadow-md">
+    <div className="flex items-center justify-center min-h-screen bg-base text-text p-4">
+      <div className="bg-surface0 p-6 rounded-lg w-full max-w-4xl shadow-md">
         <div className="border-b pb-4 mb-4">
-          <h1 className="text-xl lg:text-2xl font-bold text-yellow">
+          <h1 className="text-xl md:text-2xl font-bold text-yellow text-center">
             Ngobrol Santai Minecraft Server
           </h1>
-          <p className="text-xs lg:text-sm text-surface2">
+          <p className="text-xs md:text-sm text-surface2 text-center">
             A Minecraft server that allows crossplay between Java and Bedrock
             editions (including Pocket Edition).
           </p>
@@ -60,7 +60,7 @@ const Ping = () => {
         <div className="flex flex-col md:flex-row gap-4">
           <div className="w-full md:w-1/2 flex flex-col gap-4">
             <h2 className="text-xl font-semibold text-yellow">Server Status</h2>
-            <div className="flex gap-4">
+            <div className="flex gap-4 items-center">
               {serverData?.favicon ? (
                 <img
                   src={serverData.favicon}
@@ -71,7 +71,7 @@ const Ping = () => {
                 <div className="w-16 h-16 bg-surface2 rounded-full"></div>
               )}
 
-              <div className="flex flex-col text-xs lg:text-lg">
+              <div className="flex flex-col text-xs md:text-lg">
                 <p>
                   <strong>IP:</strong> NgobrolSantai.aternos.me:64523{" "}
                   <button onClick={handleCopyText} aria-label="Copy server IP">
@@ -117,10 +117,11 @@ const Ping = () => {
               </a>
             </div>
           </div>
+
           <div className="w-full md:w-1/2 flex flex-col gap-4">
             <div className="text-xl font-semibold text-yellow">Players</div>
             <span>
-              <strong>Online:</strong> {serverData.players?.online || 0} /{" "}
+              <strong> Online:</strong> {serverData.players?.online || 0} /{" "}
               {serverData.players?.max || 20}
             </span>
             <div className="bg-mantle pb-4 pl-4 pr-4 pt-2 rounded-md">
@@ -142,4 +143,4 @@ const Ping = () => {
   )
 }
 
-export default Ping
+export default App
