@@ -12,6 +12,7 @@ const Ping = () => {
 
   const [error, setError] = useState(null)
   const [copied, setCopied] = useState(false)
+  const [loading, setLoading] = useState(true) // New loading state
 
   useEffect(() => {
     const fetchServerData = async () => {
@@ -20,6 +21,8 @@ const Ping = () => {
         setServerData(response.data)
       } catch (err) {
         setError(err.message)
+      } finally {
+        setLoading(false) // Set loading to false after fetching
       }
     }
 
@@ -38,14 +41,14 @@ const Ping = () => {
   }
 
   if (error) return <Error message={error} />
-  if (!serverData) return <Loading />
+  if (loading) return <Loading /> // Show loading while fetching data
 
   return (
     <div className="flex items-center justify-center h-screen bg-base text-text">
       <div className="bg-surface0 p-6 rounded-lg w-3/4 shadow-md">
         <div className="border-b pb-4 mb-4">
           <h1 className="text-xl lg:text-2xl font-bold text-yellow">
-            FoxNola&apos;s Minecraft Server
+            Ngobrol Santai Minecraft Server
           </h1>
           <p className="text-xs lg:text-sm text-surface2">
             A Minecraft server that allows crossplay between Java and Bedrock
