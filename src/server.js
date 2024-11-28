@@ -7,7 +7,7 @@ const PORT = 3001
 
 app.use(cors())
 app.get("/api/ping", (req, res) => {
-  const server = new MinecraftServer("FoxNola.aternos.me", 64523)
+  const server = new MinecraftServer("NgobrolSantai.aternos.me", 64523)
 
   server.ping(4000, 768, (err, response) => {
     if (err) {

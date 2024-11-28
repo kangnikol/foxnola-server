@@ -5,24 +5,29 @@ import Loading from "./Loading"
 import Error from "./Error"
 
 const Ping = () => {
-  const [serverData, setServerData] = useState(null)
+  const [serverData, setServerData] = useState({
+    version: null,
+    players: { online: 0, max: 20, sample: [] },
+  })
+
   const [error, setError] = useState(null)
   const [copied, setCopied] = useState(false)
 
   useEffect(() => {
-    axios
-      .get("/api/ping")
-      .then((response) => setServerData(response.data))
-      .catch((err) => setError(err.message))
+    const fetchServerData = async () => {
+      try {
+        const response = await axios.get("/api/ping")
+        setServerData(response.data)
+      } catch (err) {
+        setError(err.message)
+      }
+    }
+
+    fetchServerData()
   }, [])
 
-  // Display error or loading state
-  if (error) return <Error message={error} />
-  if (!serverData) return <Loading />
-
   const cpyTxt = () => {
-    const copyText = "FoxNola.aternos.me:64523"
-
+    const copyText = "NgobrolSantai.aternos.me:64523"
     navigator.clipboard
       .writeText(copyText)
       .then(() => {
@@ -32,13 +37,12 @@ const Ping = () => {
       .catch((err) => console.error("Error copying text:", err))
   }
 
-  // Determine if the server is offline based on missing version data
-  const isServerOffline = !serverData.version || !serverData.version.name
+  if (error) return <Error message={error} />
+  if (!serverData) return <Loading />
 
   return (
     <div className="flex items-center justify-center h-screen bg-base text-text">
       <div className="bg-surface0 p-6 rounded-lg w-3/4 shadow-md">
-        {/* Server Info Header */}
         <div className="border-b pb-4 mb-4">
           <h1 className="text-xl lg:text-2xl font-bold text-yellow">
             FoxNola&apos;s Minecraft Server
@@ -49,23 +53,21 @@ const Ping = () => {
           </p>
         </div>
 
-        {/* Server Status and Details */}
         <div className="flex flex-col md:flex-row gap-4">
-          {/* Left Section: Server Status */}
           <div className="w-full md:w-1/2 flex flex-col gap-4">
             <h2 className="text-xl font-semibold text-yellow">Server Status</h2>
             <div className="flex gap-4">
-              {(serverData.favicon && (
+              {(serverData?.favicon && (
                 <img
                   src={serverData.favicon}
                   alt="Server Favicon"
                   className="w-16 h-16 rounded-lg"
                 />
-              )) || <div className="w-16 h-16 bg-surface2"></div>}
+              )) || <div className="w-16 h-16 bg-surface2 rounded-full"></div>}
 
               <div className="flex flex-col text-xs lg:text-lg">
                 <p>
-                  <strong>IP:</strong> FoxNola.aternos.me:64523{" "}
+                  <strong>IP:</strong> NgobrolSantai.aternos.me:64523{" "}
                   <button onClick={cpyTxt} aria-label="Copy server IP">
                     {copied ? (
                       <span className="text-yellow animate-fade text-xs">
@@ -78,15 +80,12 @@ const Ping = () => {
                 </p>
                 <p>
                   <strong>Status: </strong>
-                  <strong className="text-green">
-                    {isServerOffline ||
-                    serverData.version.name === "§c● Offline" ? (
-                      <span className="text-red">
-                        Offline! Contact the server admin.
-                      </span>
-                    ) : (
-                      serverData.version.name
-                    )}
+                  <strong
+                    className={serverData.version ? "text-red" : "text-green"}
+                  >
+                    {serverData.version
+                      ? "Offline! Contact the server admin."
+                      : serverData.version.name}
                   </strong>
                 </p>
               </div>
@@ -112,18 +111,15 @@ const Ping = () => {
               </a>
             </div>
           </div>
-
-          {/* Right Section: Players Information */}
           <div className="w-full md:w-1/2 flex flex-col gap-4">
             <div className="text-xl font-semibold text-yellow">Players</div>
             <span>
-              <strong>Online:</strong> {serverData.players.online || 0} /{" "}
-              {serverData.players.max}
+              <strong>Online:</strong> {serverData.players?.online || 0} /{" "}
+              {serverData.players?.max || 20}
             </span>
             <div className="bg-mantle pb-4 pl-4 pr-4 pt-2 rounded-md">
               <p className="pb-2 underline">List Online:</p>
-              {serverData.players.sample &&
-              serverData.players.sample.length > 0 ? (
+              {serverData.players?.sample?.length > 0 ? (
                 <ul>
                   {serverData.players.sample.map((player, index) => (
                     <li key={index}>{player.name}</li>
