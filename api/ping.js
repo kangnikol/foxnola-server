@@ -7,20 +7,22 @@ const serverConfig = {
   protocolVersion: 768,
 }
 
-export default async function handler(req, res) {
-  try {
-    const server = new MinecraftServer(serverConfig.address, serverConfig.port)
-    const response = await server.ping(
-      serverConfig.timeout,
-      serverConfig.protocolVersion
-    )
+export default function handler(req, res) {
+  const server = new MinecraftServer(serverConfig.address, serverConfig.port)
 
-    console.log("Ping Response:", response)
-    res.json(response)
-  } catch (err) {
-    console.error("Ping Error:", err)
-    res
-      .status(500)
-      .json({ error: "Error pinging server", details: err.message })
-  }
+  server.ping(
+    serverConfig.timeout,
+    serverConfig.protocolVersion,
+    (err, response) => {
+      if (err) {
+        console.error("Ping Error:", err)
+        return res
+          .status(500)
+          .json({ error: "Error pinging server", details: err.message })
+      }
+
+      console.log("Ping Response:", response)
+      res.json(response)
+    }
+  )
 }
