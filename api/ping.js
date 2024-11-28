@@ -3,7 +3,7 @@ import { MinecraftServer } from "mcping-js"
 const serverConfig = {
   address: "NgobrolSantai.aternos.me",
   port: 64523,
-  timeout: 1000,
+  timeout: 10000,
   protocolVersion: 768,
 }
 
