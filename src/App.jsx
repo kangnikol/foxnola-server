@@ -20,6 +20,7 @@ const Ping = () => {
         const response = await axios.get("/api/ping")
         setServerData(response.data)
       } catch (err) {
+        console.error("Error fetching server data:", err)
         setError(err.message)
       } finally {
         setLoading(false)
